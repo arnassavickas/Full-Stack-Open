@@ -2,24 +2,17 @@ import React, { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import PersonList from "./components/PersonList";
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456" },
-    { name: "Ada Lovelace", number: "39-44-5323523" },
-    { name: "Dan Abramov", number: "12-43-234345" },
-    { name: "Mary Poppendieck", number: "39-23-6423122" },
-  ]);
+  const [persons, setPersons] = useState([{ name: "loading", number: "data" }]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [regex, setRegex] = useState(new RegExp("", "i"));
 
   useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
+    personService.getAll().then((personArray) => {
+      setPersons(personArray);
     });
   }, []);
 
@@ -32,16 +25,44 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (
-      persons.find(
-        (person) => person.name.toLowerCase() === newName.toLowerCase()
-      ) !== undefined
-    ) {
-      alert(`${newName} is already added to phonebook`);
+    const findPerson = persons.find(
+      (person) => person.name.toLowerCase() === newName.toLowerCase()
+    );
+    console.log(findPerson);
+    if (findPerson !== undefined) {
+      const confirmation = window.confirm(
+        `${newName} is already added to phonebook replace the old number wit a new one?`
+      );
+      if (confirmation) {
+        const updatedPerson = { ...findPerson, number: newNumber };
+        personService
+          .updatePerson(updatedPerson)
+          .then((updatedPersonServer) => {
+            setPersons(
+              persons.map((person) =>
+                person === findPerson ? updatedPersonServer : person
+              )
+            );
+          });
+      }
     } else {
-      setPersons([...persons, { name: newName, number: newNumber }]);
-      setNewName("");
-      setNewNumber("");
+      const personObject = {
+        name: newName,
+        number: newNumber,
+      };
+      personService.create(personObject).then((createdPerson) => {
+        setPersons([...persons, createdPerson]);
+        setNewName("");
+        setNewNumber("");
+      });
+    }
+  };
+
+  const handleDelete = (name, id) => {
+    const confirmation = window.confirm(`Delete ${name}?`);
+    if (confirmation) {
+      personService.deletePerson(id);
+      setPersons(persons.filter((person) => person.id !== id));
     }
   };
 
@@ -58,7 +79,7 @@ const App = () => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <PersonList persons={persons} regex={regex} />
+      <PersonList persons={persons} regex={regex} deletePerson={handleDelete} />
     </div>
   );
 };

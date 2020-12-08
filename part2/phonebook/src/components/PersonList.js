@@ -1,7 +1,7 @@
 import React from "react";
 import Person from "./Person";
 
-const PersonList = ({ persons, regex }) => {
+const PersonList = ({ persons, regex, deletePerson }) => {
   const filteredList = persons.filter((person) => {
     return regex.test(person.name);
   });
@@ -10,7 +10,7 @@ const PersonList = ({ persons, regex }) => {
     <table>
       <tbody>
         {filteredList.map((person) => (
-          <Person key={person.name} person={person} />
+          <Person key={person.name} person={person} deletePerson={deletePerson} />
         ))}
       </tbody>
     </table>
