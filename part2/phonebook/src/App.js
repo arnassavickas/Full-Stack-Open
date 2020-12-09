@@ -3,12 +3,14 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import PersonList from "./components/PersonList";
 import personService from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([{ name: "loading", number: "data" }]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [regex, setRegex] = useState(new RegExp("", "i"));
+  const [notification, setNotification] = useState({ text: null, color: null });
 
   useEffect(() => {
     personService.getAll().then((personArray) => {
@@ -51,24 +53,50 @@ const App = () => {
         number: newNumber,
       };
       personService.create(personObject).then((createdPerson) => {
+        setNotification({
+          text: `${createdPerson.name} was added`,
+          color: "green",
+        });
         setPersons([...persons, createdPerson]);
         setNewName("");
         setNewNumber("");
       });
+      setTimeout(() => {
+        setNotification({ text: null, color: null });
+      }, 4000);
     }
   };
 
   const handleDelete = (name, id) => {
     const confirmation = window.confirm(`Delete ${name}?`);
     if (confirmation) {
-      personService.deletePerson(id);
+      personService
+        .deletePerson(id)
+        .then((response) => {
+          setNotification({
+            text: `${name} was successfully removed from the server`,
+            color: "green",
+          });
+        })
+        .catch((error) => {
+          setNotification({
+            text: `Information of ${name} has already been removed from the server`,
+            color: "red",
+          });
+        });
+      setTimeout(() => {
+        setNotification({ text: null, color: null });
+      }, 4000);
       setPersons(persons.filter((person) => person.id !== id));
+
+      console.log("here");
     }
   };
 
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification notification={notification} />
       <Filter setRegex={setRegex} />
       <h2>add a new</h2>
       <PersonForm
