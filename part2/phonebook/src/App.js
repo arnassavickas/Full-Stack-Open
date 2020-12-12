@@ -45,6 +45,11 @@ const App = () => {
                 person === findPerson ? updatedPersonServer : person
               )
             );
+          })
+          .catch((error) => {
+            console.log(error.response.data.error);
+            showNotification(`${error.response.data.error}`, "red");
+            hideNotificatonIn(4000);
           });
       }
     } else {
@@ -52,18 +57,38 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personService.create(personObject).then((createdPerson) => {
-        setNotification({
-          text: `${createdPerson.name} was added`,
-          color: "green",
+      personService
+        .create(personObject)
+        .then((createdPerson) => {
+          showNotification(`${createdPerson.name} was added`, "green");
+          /*
+          setNotification({
+            text: `${createdPerson.name} was added`,
+            color: "green",
+          });
+           */
+          setPersons([...persons, createdPerson]);
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          showNotification(`${error.response.data.error}`, "red");
+          /* setNotification({
+            text: `${error.response.data.error}`,
+            color: "red",
+          }); */
+          hideNotificatonIn(4000);
+          /* setTimeout(() => {
+            setNotification({ text: null, color: null });
+          }, 4000); */
         });
-        setPersons([...persons, createdPerson]);
-        setNewName("");
-        setNewNumber("");
-      });
+      hideNotificatonIn(4000);
+
+      /*
       setTimeout(() => {
         setNotification({ text: null, color: null });
-      }, 4000);
+      }, 4000); */
     }
   };
 
@@ -73,16 +98,27 @@ const App = () => {
       personService
         .deletePerson(id)
         .then((response) => {
+          showNotification(
+            `${name} was successfully removed from the server`,
+            "green"
+          );
+          /*
           setNotification({
             text: `${name} was successfully removed from the server`,
             color: "green",
           });
+ */
         })
         .catch((error) => {
+          showNotification(
+            `Information of ${name} has already been removed from the server`,
+            "red"
+          );
+          /*
           setNotification({
             text: `Information of ${name} has already been removed from the server`,
             color: "red",
-          });
+          }); */
         });
       setTimeout(() => {
         setNotification({ text: null, color: null });
@@ -91,6 +127,19 @@ const App = () => {
 
       console.log("here");
     }
+  };
+
+  const showNotification = (text, color) => {
+    setNotification({
+      text,
+      color,
+    });
+  };
+
+  const hideNotificatonIn = (time) => {
+    setTimeout(() => {
+      setNotification({ text: null, color: null });
+    }, time);
   };
 
   return (
