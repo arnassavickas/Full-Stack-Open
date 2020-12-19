@@ -18,4 +18,8 @@ const addNewBlog = async (blogData) => {
   return response.data;
 };
 
+const like = async (blogData) => {
+  
+}
+
 export default { getAll, addNewBlog, setToken };
