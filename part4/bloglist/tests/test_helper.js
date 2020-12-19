@@ -29,10 +29,9 @@ const nonExistingId = async () => {
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
-  console.log('here');
-  console.log(blogs[0]);
-  console.log(blogs[0].toJSON());
-  return blogs.map((blog) => blog.toJSON());
+  return blogs.map((blog) => {
+    return blog.toJSON();
+  });
 };
 
 const usersInDb = async () => {

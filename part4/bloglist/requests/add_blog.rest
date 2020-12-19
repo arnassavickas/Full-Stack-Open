@@ -1,11 +1,10 @@
-POST http://localhost:3003/api/blogs/
+POST http://localhost:3001/api/blogs/
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhdmFzIiwiaWQiOiI1ZmRhNGI0Mjc5NTYzMTJhNDBlZjJiNDciLCJpYXQiOjE2MDgyMjU0MDZ9.TpoKbCIkuhCui_bwE5r-E6huS9J_pfYuq6kDFTpKPxU
 
 {
-    "title": "Now with authorization!",
+    "title": "Id from token",
     "author": "Another",
     "url": "www",
-    "likes": 10,
-    "userId": "5fda4b427956312a40ef2b47"
+    "likes": 10
   }

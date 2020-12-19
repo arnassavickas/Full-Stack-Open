@@ -40,20 +40,25 @@ test('a specific blog is within the returned blogs', async () => {
   expect(titles).toContain('The first ever blog');
 });
 
-test('a  valid blog can be added', async () => {
+test('a valid blog can be added', async () => {
+  const user = await User.find({});
+
   const newBlog = {
     title: 'NEW BLOG',
     author: 'Very Newary',
     url: 'www.new.lt',
     likes: 0,
-    user: [mongoose.Types.ObjectId('5fda4b427956312a40ef2b47')],
+    userId: [user[0]._id],
   };
 
   await api
     .post('/api/blogs/')
     .set(
       'Authorization',
-      'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhdmFzIiwiaWQiOiI1ZmRhNGI0Mjc5NTYzMTJhNDBlZjJiNDciLCJpYXQiOjE2MDgyMjU0MDZ9.TpoKbCIkuhCui_bwE5r-E6huS9J_pfYuq6kDFTpKPxU'
+      `bearer ${jwt.sign(
+        { username: 'admin', id: user[0]._id.toString() },
+        process.env.SECRET
+      )}`
     )
     .send(newBlog)
     .expect(200)
@@ -67,15 +72,20 @@ test('a  valid blog can be added', async () => {
 });
 
 test('blog without content is not added', async () => {
+  const user = await User.find({});
+
   const newBlog = {
     likes: 0,
-    user: [mongoose.Types.ObjectId('5fda4b427956312a40ef2b47')],
+    userId: [user[0]._id],
   };
   await api
     .post('/api/blogs/')
     .set(
       'Authorization',
-      'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhdmFzIiwiaWQiOiI1ZmRhNGI0Mjc5NTYzMTJhNDBlZjJiNDciLCJpYXQiOjE2MDgyMjU0MDZ9.TpoKbCIkuhCui_bwE5r-E6huS9J_pfYuq6kDFTpKPxU'
+      `bearer ${jwt.sign(
+        { username: 'admin', id: user[0]._id.toString() },
+        process.env.SECRET
+      )}`
     )
     .send(newBlog)
     .expect(400);
@@ -84,17 +94,20 @@ test('blog without content is not added', async () => {
   expect(response).toHaveLength(helper.initialBlogs.length);
 });
 
-test.only('a specific blog is returned', async () => {
+test('a specific blog is returned', async () => {
   const blogList = await helper.blogsInDb();
   const response = await api
     .get(`/api/blogs/${blogList[0].id}`)
     .expect(200)
     .expect('Content-Type', /application\/json/);
 
-  console.log(response.body[0]);
+  console.log('here');
+  console.log(response.body);
   console.log(blogList[0]);
+  console.log(JSON.stringify(response.body));
+  console.log(JSON.stringify(blogList[0]));
 
-  expect(response.body[0]).toEqual(blogList[0]);
+  expect(JSON.stringify(response.body)).toEqual(JSON.stringify(blogList[0]));
 });
 
 test('a specific blog can be deleted', async () => {
