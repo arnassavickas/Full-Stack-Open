@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const Notification = ({ notification }) => {
   if (notification.text === null) {
@@ -6,14 +6,15 @@ const Notification = ({ notification }) => {
   }
   return (
     <div
+      id="notification"
       style={{
-        backgroundColor: "#DDDDDD",
+        backgroundColor: '#DDDDDD',
         border: `1px solid ${notification.color}`,
         padding: 10,
-        marginBottom: "1rem",
+        marginBottom: '1rem',
         borderRadius: 10,
         fontSize: 20,
-        fontFamily: "monospace",
+        fontFamily: 'monospace',
         color: notification.color,
       }}
     >

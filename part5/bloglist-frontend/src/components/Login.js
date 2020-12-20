@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import loginService from '../services/login';
 import blogService from '../services/blogs';
+import PropTypes from 'prop-types';
 
 const Login = ({ setUser, showNotification }) => {
   const [username, setUsername] = useState('');
@@ -24,8 +25,8 @@ const Login = ({ setUser, showNotification }) => {
       blogService.setToken(user.token);
       window.localStorage.setItem('user', JSON.stringify(user));
       showNotification('logged in successfully', 'green', 4000);
-    } catch {
-      showNotification('wrong username of password', 'red', 4000);
+    } catch (error) {
+      showNotification('wrong username or password', 'red', 4000);
       console.error('login failed');
     }
   };
@@ -37,25 +38,34 @@ const Login = ({ setUser, showNotification }) => {
         <label>
           username
           <input
-            type='text'
+            id="username"
+            type="text"
             value={username}
-            name='Username'
+            name="Username"
             onChange={handleUsernameChange}
           />
         </label>
         <label>
           password
           <input
-            type='password'
+            id="password"
+            type="password"
             value={password}
-            name='Password'
+            name="Password"
             onChange={handlePasswordChange}
           />
         </label>
-        <button type='submit'>login</button>
+        <button id="login" type="submit">
+          login
+        </button>
       </form>
     </div>
   );
+};
+
+Login.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  showNotification: PropTypes.func.isRequired,
 };
 
 export default Login;

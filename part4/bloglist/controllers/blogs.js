@@ -40,7 +40,9 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
+  console.log('decodedToken :>> ', request.token);
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  console.log('decodedToken :>> ', decodedToken);
   if (!request.token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' });
   }
@@ -59,8 +61,12 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.put('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id);
-  blog.likes = request.body.likes;
-  blog.save();
+  console.log(request.body);
+  if (request.body.like) {
+    blog.likes += 1;
+    await blog.save();
+    response.status(200).end();
+  }
   response.status(200).end();
 });
 

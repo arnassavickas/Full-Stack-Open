@@ -34,9 +34,10 @@ const CreateNew = ({ blogs, setBlogs, showNotification, blogFormRef }) => {
           <label>
             title:
             <input
-              type='text'
+              id="title-input"
+              type="text"
               value={title}
-              name='Title'
+              name="Title"
               onChange={(event) => setTitle(event.target.value)}
             />
           </label>
@@ -45,9 +46,10 @@ const CreateNew = ({ blogs, setBlogs, showNotification, blogFormRef }) => {
           <label>
             author:
             <input
-              type='text'
+              id="author-input"
+              type="text"
               value={author}
-              name='Author'
+              name="Author"
               onChange={(event) => setAuthor(event.target.value)}
             />
           </label>
@@ -56,14 +58,17 @@ const CreateNew = ({ blogs, setBlogs, showNotification, blogFormRef }) => {
           <label>
             url:
             <input
-              type='text'
+              id="url-input"
+              type="text"
               value={url}
-              name='url'
+              name="url"
               onChange={(event) => setUrl(event.target.value)}
             />
           </label>
         </div>
-        <button type='submit'>create</button>
+        <button id="create-button" type="submit">
+          create
+        </button>
       </form>
     </div>
   );
