@@ -33,17 +33,19 @@ const initialState = anecdotesAtStart.map(asObject);
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state);
   console.log('action', action);
-  if (action.type === 'LIKE') {
-    const anecdote = state.find((anecdote) => anecdote.id === action.data.id);
-    const votedAnecdote = { ...anecdote, votes: anecdote.votes + 1 };
-    return state.map((anecdote) =>
-      anecdote.id === votedAnecdote.id ? votedAnecdote : anecdote
-    );
-  } else if (action.type === 'CREATE_NEW') {
-    const anecdoteObject = asObject(action.data.content);
-    return [...state, anecdoteObject];
+  switch (action.type) {
+    case 'LIKE':
+      const anecdote = state.find((anecdote) => anecdote.id === action.data.id);
+      const votedAnecdote = { ...anecdote, votes: anecdote.votes + 1 };
+      return state.map((anecdote) =>
+        anecdote.id === votedAnecdote.id ? votedAnecdote : anecdote
+      );
+    case 'CREATE_NEW':
+      const anecdoteObject = asObject(action.data.content);
+      return [...state, anecdoteObject];
+    default:
+      return state;
   }
-  return state;
 };
 
 export default reducer;
