@@ -1,17 +1,16 @@
-export const newNotification = (content) => {
-  return { type: 'NEW_NOTIFICATION', content };
-};
-
-export const showNotification = (content) => {
-  return {
-    type: 'NEW_NOTIFICATION',
-    content,
-  };
-};
-
-export const removeNotification = () => {
-  return {
-    type: 'REMOVE_NOTIFICATION',
+let timeoutID;
+export const setNotification = (text, time) => {
+  return async (dispatch) => {
+    clearTimeout(timeoutID);
+    dispatch({
+      type: 'NEW_NOTIFICATION',
+      content: text,
+    });
+    timeoutID = setTimeout(() => {
+      dispatch({
+        type: 'REMOVE_NOTIFICATION',
+      });
+    }, time * 1000);
   };
 };
 
