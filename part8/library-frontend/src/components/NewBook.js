@@ -3,14 +3,14 @@ import { useMutation } from '@apollo/client';
 import { ADD_BOOK, ALL_BOOKS, ALL_AUTHORS } from '../queries';
 
 const NewBook = (props) => {
-  const [title, setTitle] = useState('a');
+  const [title, setTitle] = useState(`${Math.floor(Math.random() * 10000)}`);
   const [author, setAuhtor] = useState('abasdf');
   const [published, setPublished] = useState('111');
   const [genre, setGenre] = useState('');
   const [genres, setGenres] = useState(['asdf']);
 
   const [createBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    refetchQueries: [{ query: ALL_AUTHORS }],
   });
 
   if (!props.show) {
@@ -21,11 +21,11 @@ const NewBook = (props) => {
     event.preventDefault();
 
     console.log('add book...');
-    console.log({ title, published, author, genres });
 
     createBook({
       variables: { title, published: Number(published), author, genres },
     });
+    props.booksNeedUpdating(true);
     setTitle('');
     setPublished('');
     setAuhtor('');
