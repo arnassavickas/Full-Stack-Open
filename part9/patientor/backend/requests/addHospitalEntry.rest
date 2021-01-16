@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2020-01-15",
+  "description": "new description",
+  "specialist": "daktaras",
+  "diagnosisCodes": ["Z123", "AAA"],
+  "type": "Hospital",
+  "discharge": {"date": "2021-01-01", "criteria": "never"}
+}
