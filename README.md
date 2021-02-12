@@ -14,6 +14,7 @@ A short review about each part:
  - Part 1 - Introduction to React: went straight to learning all of the modern **React** practices with **hooks**, but also familiarized with classes.
  - Part 2 - Communicating with server: learnt about Promises, started to use axios to make calls to the server.
  - Part 3 - Programming a server with NodeJS and Express: probably the toughest part, where I started to use a lot of new technologies: writing **REST API** on **NodeJS** with **Express**, **MongoDB** as a database with **Mongoose**, deploying the app to **Heroku** and **ESlint**.
+ For easier deployment, part 3 is in [another repository](https://github.com/arnassavickas/Full-Stack-Open-part3).
  - Part 4 - Testing Express servers, user administration: learnt to authenticate the user and how to write unit tests with **jest**.
  - Part 5 - Testing React apps: wrote _End to End_ (E2E) tests using **Cypress**.
  - Part 6 - State management with Redux: introduced to state management library **Redux**, learnt how to integrate it with React.
