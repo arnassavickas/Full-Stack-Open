@@ -23,7 +23,7 @@ A short review about each part:
  - Part 9 - Typescript: learnt about the joy of using **Typescript**.
  
 ## Certificate
-You can check the proof of certificate [here](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/b1efa57b592b4aeb21b3fbc6c83e36ef).
+You can check the proof of certificate [here](https://cs50.harvard.edu/certificates/e7d5c75b-6baa-4b24-b60f-a3bbb1855dac).
 
 ## Folders
 
