@@ -21,6 +21,9 @@ A short review about each part:
  - Part 7 - React router, custom hooks, styling app with CSS and webpack: a lot of new information about ways to use React. Learnt how to configure webpack, how to React using **Material UI**.
  - Part 8 - GraphQL: introduced **GraphQL** into the project as an alternative to REST.
  - Part 9 - Typescript: learnt about the joy of using **Typescript**.
+ 
+## Certificate
+You can check the proof of certificate [here](https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/b1efa57b592b4aeb21b3fbc6c83e36ef).
 
 ## Folders
 
